@@ -16,6 +16,8 @@ int blue = 255;
 int green = 255;
 int red = 255;
 
+using namespace std;
+
 void setup() {
   pinMode(D7, OUTPUT);
   pinMode(D6, OUTPUT);
@@ -25,18 +27,12 @@ void setup() {
 
 
 void loop() {
-  blue -= 1;
-  if (!blue) {
-    blue = 255;
-    green -= 1;
-    if (!green) {
-      red -= 1;
-      green = 255;
-      if (!green) {
-        green = 255;
-      }
-    }
-  }
+  blue = rand()%255;
+  green = rand()%255;
+  red = rand()%255;
+  delay(100);
+
+
 
   analogWrite(D7,red); 
   analogWrite(D6,green); 
