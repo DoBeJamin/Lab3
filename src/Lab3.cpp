@@ -12,9 +12,12 @@ void loop();
 SYSTEM_MODE(MANUAL);
 SYSTEM_THREAD(ENABLED);
 
-int blue = 255;
-int green = 255;
-int red = 255;
+int color[3] = {255,255,255};
+int color_idx = 0;
+
+bool button_pressed = false;
+
+int potentiometer;
 
 using namespace std;
 
@@ -22,21 +25,39 @@ void setup() {
   pinMode(D7, OUTPUT);
   pinMode(D6, OUTPUT);
   pinMode(D3, OUTPUT);
-  
+
+  pinMode(D8, INPUT);
+  pinMode(A5, INPUT);
+
+
 }
 
 
 void loop() {
-  blue = rand()%255;
-  green = rand()%255;
-  red = rand()%255;
-  delay(100);
+
+
+  if (digitalRead(D8)) {
+    button_pressed = true;
+  } else if (button_pressed) {
+    color_idx += 1;
+    if (color_idx == 3) {
+      color_idx = 0;
+    }
+    button_pressed = false;
+    
+
+  }
+
+  potentiometer = analogRead(A5);
+
+
+  color[color_idx] = static_cast<float>(potentiometer)*(255.0/4095.0);
 
 
 
-  analogWrite(D7,red); 
-  analogWrite(D6,green); 
-  analogWrite(D3,blue); 
+  analogWrite(D7,color[0]); 
+  analogWrite(D6,color[1]); 
+  analogWrite(D3,color[2]); 
 
 
 }
